@@ -25,4 +25,3 @@ Hosted via GitHub Pages at [zoe.luckins.im](https://zoe.luckins.im).
 
 - Edit `index.html` to update copy or sections
 - Edit `assets/style.css` for visual changes
-- LinkedIn URL in index.html is a placeholder — update `href="https://www.linkedin.com/in/"` with Zoe's profile URL
