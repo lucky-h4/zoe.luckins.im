@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zoe Luckins · Senior Ward Sister</title>
+  <meta name="description" content="Professional profile of Zoe Luckins, Senior Ward Sister at Manx Care, specialising in orthopaedic nursing, infection control, and clinical ward management.">
+  <meta name="author" content="Zoe Luckins">
+  <meta property="og:title" content="Zoe Luckins · Senior Ward Sister">
+  <meta property="og:description" content="Senior Ward Sister at Manx Care. Orthopaedic nursing, infection control, and clinical ward management.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zoe.luckins.im">
+  <link rel="canonical" href="https://zoe.luckins.im">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <span class="nav-brand">ZL</span>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#focus">Areas of focus</a></li>
+          <li><a href="#values">Values</a></li>
+          <li><a href="#pulse">Pulse</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="container">
+        <div class="hero-inner">
+          <img src="zoe.jpeg" alt="Zoe Luckins" class="profile-photo">
+          <div class="hero-text">
+            <h1>Zoe Luckins</h1>
+            <p class="role">Senior Ward Sister · <a href="https://www.manxcare.im" target="_blank" rel="noopener">Manx Care</a></p>
+            <p class="tagline">Orthopaedic nursing, infection control, and clinical ward management.</p>
+            <p class="supporting">A nursing leader focused on safe, compassionate care, effective clinical teams, and high standards in inpatient orthopaedic services.</p>
+            <ul class="link-list">
+              <li><a href="https://www.manxcare.im" target="_blank" rel="noopener" class="btn btn-outline">Manx Care</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container">
+        <h2>About</h2>
+        <p class="about-text">Zoe Luckins is a Senior Ward Sister at Manx Care, working on Ward 11 with a specialist focus on orthopaedic nursing. Her work includes clinical leadership, infection prevention and control, patient safety, ward coordination, and supporting high standards of care across the nursing team.</p>
+      </div>
+    </section>
+
+    <!-- Areas of focus -->
+    <section class="section section-alt" id="focus">
+      <div class="container">
+        <h2>Areas of focus</h2>
+        <ul class="focus-grid">
+          <li class="focus-card">
+            <span class="focus-icon">🦴</span>
+            <span>Orthopaedic nursing</span>
+          </li>
+          <li class="focus-card">
+            <span class="focus-icon">🛡️</span>
+            <span>Infection prevention and control</span>
+          </li>
+          <li class="focus-card">
+            <span class="focus-icon">🏥</span>
+            <span>Clinical ward management</span>
+          </li>
+          <li class="focus-card">
+            <span class="focus-icon">✅</span>
+            <span>Patient safety and care standards</span>
+          </li>
+          <li class="focus-card">
+            <span class="focus-icon">👩‍⚕️</span>
+            <span>Nursing leadership</span>
+          </li>
+          <li class="focus-card">
+            <span class="focus-icon">🤝</span>
+            <span>Team coordination and development</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Professional values -->
+    <section class="section" id="values">
+      <div class="container">
+        <h2>Professional values</h2>
+        <p class="values-text">Focused on safe, dignified, patient-centred care, strong clinical standards, and supporting nursing teams in a busy ward environment.</p>
+        <ul class="values-list">
+          <li>Compassionate care</li>
+          <li>Clinical excellence</li>
+          <li>Safe practice</li>
+          <li>Team leadership</li>
+          <li>Continuous improvement</li>
+          <li>Infection control awareness</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Pulse -->
+    <section class="section" id="pulse">
+      <div class="container">
+        <h2>Pulse</h2>
+        <p class="ecg-hint">Click or tap to trigger a heartbeat.</p>
+        <div class="ecg-controls">
+          <button id="ecg-reset" class="ecg-reset-btn">Reset</button>
+        </div>
+        <canvas id="ecg-canvas"></canvas>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section section-alt" id="contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <p>For professional enquiries, please get in touch via <a href="https://www.manxcare.im" target="_blank" rel="noopener">Manx Care</a>.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Zoe Luckins &middot; zoe.luckins.im</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+  (function () {
+    const canvas = document.getElementById('ecg-canvas');
+    const ctx    = canvas.getContext('2d');
+
+    const CW = 720, CH = 140;
+    canvas.width  = CW;
+    canvas.height = CH;
+
+    const MID   = CH / 2;
+    const AMP   = Math.round(CH * 0.38);
+    const SPEED = 2;
+
+    const buf   = new Float32Array(CW);
+    const queue = [];
+
+    const BEAT_LEN = 210;
+
+    function ecgVal(t) {
+      // P wave
+      if (t >= 0.08 && t < 0.20) return 0.15 * Math.sin(Math.PI * (t - 0.08) / 0.12);
+      // Q dip
+      if (t >= 0.29 && t < 0.32) return -0.12 * Math.sin(Math.PI * (t - 0.29) / 0.03);
+      // R spike
+      if (t >= 0.32 && t < 0.38) return Math.sin(Math.PI * (t - 0.32) / 0.06);
+      // S dip
+      if (t >= 0.38 && t < 0.42) return -0.15 * Math.sin(Math.PI * (t - 0.38) / 0.04);
+      // T wave
+      if (t >= 0.52 && t < 0.74) return 0.28 * Math.sin(Math.PI * (t - 0.52) / 0.22);
+      return 0;
+    }
+
+    function queueBeat() {
+      for (let i = 0; i < BEAT_LEN; i++) {
+        queue.push(-ecgVal(i / BEAT_LEN) * AMP);
+      }
+    }
+
+    function queueGap(n) { for (let i = 0; i < n; i++) queue.push(0); }
+
+    let idleT = 0;
+    function nextVal() {
+      if (queue.length > 0) return queue.shift();
+      idleT += 0.018;
+      return Math.sin(idleT) * 0.5;
+    }
+
+    // Pre-seed with three beats so the monitor looks live on load
+    queueGap(60); queueBeat(); queueGap(175); queueBeat(); queueGap(175); queueBeat();
+    for (let i = 0; i < CW; i++) buf[i] = nextVal();
+
+    function step() {
+      buf.copyWithin(0, SPEED);
+      for (let i = CW - SPEED; i < CW; i++) buf[i] = nextVal();
+    }
+
+    function draw() {
+      ctx.fillStyle = '#091918';
+      ctx.fillRect(0, 0, CW, CH);
+
+      // Grid
+      ctx.strokeStyle = 'rgba(28,110,120,0.20)';
+      ctx.lineWidth = 0.5;
+      for (let x = 40; x <= CW; x += 40) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, CH); ctx.stroke();
+      }
+      for (let y = 30; y <= CH; y += 30) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(CW, y); ctx.stroke();
+      }
+
+      // Trace
+      ctx.strokeStyle = '#26e8a8';
+      ctx.lineWidth = 1.5;
+      ctx.shadowColor = '#26e8a8';
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      for (let x = 0; x < CW; x++) {
+        const y = MID + buf[x];
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    function loop() { step(); draw(); requestAnimationFrame(loop); }
+    loop();
+
+    canvas.addEventListener('click', queueBeat);
+    canvas.addEventListener('touchstart', e => { e.preventDefault(); queueBeat(); }, { passive: false });
+    document.getElementById('ecg-reset').addEventListener('click', () => {
+      queue.length = 0;
+      buf.fill(0);
+      idleT = 0;
+    });
+  })();
+  </script>
+
+</body>
+</html>
